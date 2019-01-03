@@ -30,12 +30,17 @@ public class JmsSubscriber {
             // 创建消费者
             MessageConsumer consumer = session.createConsumer(destination);
 
-            // 接收消息
-            TextMessage message = (TextMessage) consumer.receive();
-            System.out.println(message.getText());
-
-            // 提交事务
-            session.commit();
+            while (true) {
+                // 接收消息
+                Message message = consumer.receive();
+                if (message instanceof TextMessage) {
+                    System.out.println(((TextMessage) message).getText());
+                    // 提交事务
+                    session.commit();
+                } else {
+                    System.out.println("Unexpected message type: " + message.getClass());
+                }
+            }
         } catch (JMSException e) {
             e.printStackTrace();
         } finally {
