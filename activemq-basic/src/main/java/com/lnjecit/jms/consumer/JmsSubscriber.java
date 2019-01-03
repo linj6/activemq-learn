@@ -1,5 +1,6 @@
 package com.lnjecit.jms.consumer;
 
+import com.lnjecit.jms.constants.ActiveMQConstants;
 import com.lnjecit.jms.util.ConnectionUtil;
 
 import javax.jms.*;
@@ -25,7 +26,7 @@ public class JmsSubscriber {
             session = connection.createSession(true, Session.AUTO_ACKNOWLEDGE);
 
             // 创建队列
-            Destination destination = session.createTopic("news-topic");
+            Destination destination = session.createTopic(ActiveMQConstants.NEWS_TOPIC);
 
             // 创建消费者
             MessageConsumer consumer = session.createConsumer(destination);
@@ -34,7 +35,7 @@ public class JmsSubscriber {
                 // 接收消息
                 Message message = consumer.receive();
                 if (message instanceof TextMessage) {
-                    System.out.println(((TextMessage) message).getText());
+                    System.out.println("新闻：" + ((TextMessage) message).getText());
                     // 提交事务
                     session.commit();
                 } else {

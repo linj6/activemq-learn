@@ -1,16 +1,17 @@
 package com.lnjecit.jms.consumer;
 
 import com.lnjecit.jms.constants.ActiveMQConstants;
+import com.lnjecit.jms.listener.Listener;
 import com.lnjecit.jms.util.ConnectionUtil;
 
 import javax.jms.*;
 
 /**
  * @author lnj
- * @description activemq 点对点模式 消息接收方
+ * @description activemq 点对点模式 使用监听器接收消息
  * @date 2019-01-03 13:59
  **/
-public class JmsP2pConsumer {
+public class JmsP2pConsumerWithListener {
     public static void main(String[] args) {
         // 获取连接
         Connection connection = null;
@@ -31,16 +32,12 @@ public class JmsP2pConsumer {
             // 创建消费者
             MessageConsumer consumer = session.createConsumer(destination);
 
+            Listener listener = new Listener();
             while (true) {
-                // 接收消息
-                Message message = consumer.receive();
-                if (message instanceof TextMessage) {
-                    System.out.println("新作者：" + ((TextMessage) message).getText());
-                    // 提交事务
-                    session.commit();
-                } else {
-                    System.out.println("Unexpected message type: " + message.getClass());
-                }
+                // 设置监听器接收消息
+                consumer.setMessageListener(listener);
+                // 提交事务
+                session.commit();
             }
         } catch (JMSException e) {
             e.printStackTrace();

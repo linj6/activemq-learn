@@ -1,5 +1,6 @@
 package com.lnjecit.jms.producer;
 
+import com.lnjecit.jms.constants.ActiveMQConstants;
 import com.lnjecit.jms.util.ConnectionUtil;
 
 import javax.jms.*;
@@ -26,13 +27,13 @@ public class JmsP2pProducer {
             session = connection.createSession(true, Session.AUTO_ACKNOWLEDGE);
 
             // 创建队列
-            Destination destination = session.createQueue("childhood");
+            Destination destination = session.createQueue(ActiveMQConstants.AUTHOR_QUEUE);
 
             // 创建生产者
             MessageProducer producer = session.createProducer(destination);
 
             // 创建消息
-            TextMessage textMessage = session.createTextMessage("How are you");
+            TextMessage textMessage = session.createTextMessage("古龙");
 
             // 发送消息
             producer.send(textMessage);
