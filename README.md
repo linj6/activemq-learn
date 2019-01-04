@@ -9,3 +9,11 @@
 3. 自定义Broker
 
 对于点对点、发布/订阅模式，均提供Message.receive和MessageListener两种接收消息的方式的案例
+
+
+
+## activemq-spring
+
+spring 整合 activemq
+
+对于点对点、发布/订阅模式，均提供Message.receive和MessageListener两种接收消息的方式的案例
